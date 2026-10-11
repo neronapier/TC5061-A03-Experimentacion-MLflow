@@ -1,0 +1,22 @@
+ Container tc5061-runner-run-f314ca6c639f Creating 
+ Container tc5061-runner-run-f314ca6c639f Created 
+Corrida: 01_baseline_l2_C1 (e01c2d6614744ce0ad4770c498b4e27c)
+accuracy=0.8495 | balanced_accuracy=0.7668 | precision=0.7195 | recall=0.6083 | f1=0.6592 | roc_auc=0.9024 | pr_auc=0.7474
+Corrida: 02_l2_C0.001 (7d512d696cf34969b771c96520e5e16e)
+accuracy=0.8393 | balanced_accuracy=0.7231 | precision=0.7449 | recall=0.5000 | f1=0.5984 | roc_auc=0.8954 | pr_auc=0.7281
+Corrida: 03_l2_C100 (58193d12da504be383d86b954b23c683)
+accuracy=0.8488 | balanced_accuracy=0.7663 | precision=0.7175 | recall=0.6079 | f1=0.6582 | roc_auc=0.9025 | pr_auc=0.7476
+Corrida: 04_l1_C0.01 (1cc43a9b0fc448aca24881be78307139)
+accuracy=0.8445 | balanced_accuracy=0.7514 | precision=0.7205 | recall=0.5728 | f1=0.6382 | roc_auc=0.8981 | pr_auc=0.7347
+Corrida: 05_l1_C0.001 (3fe882db390f4fb3a14834395cce1cfb)
+accuracy=0.8321 | balanced_accuracy=0.6921 | precision=0.7727 | recall=0.4234 | f1=0.5470 | roc_auc=0.8909 | pr_auc=0.7175
+Corrida: 06_elasticnet_C0.1 (d60bf0a08b184db68839e5746fcb9306)
+accuracy=0.8481 | balanced_accuracy=0.7633 | precision=0.7188 | recall=0.6006 | f1=0.6544 | roc_auc=0.9024 | pr_auc=0.7463
+Corrida: 07_l2_C1_balanced (b8bc9fc363924b91ac2661d021441df2)
+accuracy=0.8021 | balanced_accuracy=0.8168 | precision=0.5572 | recall=0.8450 | f1=0.6715 | roc_auc=0.9023 | pr_auc=0.7451
+Corrida: 08_l2_C1_minfreq500 (ba346de390ab46aba7a284c898daeaf2)
+accuracy=0.8494 | balanced_accuracy=0.7660 | precision=0.7202 | recall=0.6062 | f1=0.6583 | roc_auc=0.9023 | pr_auc=0.7464
+Corrida: 09_baseline_seed7 (8ced851044ce48d296da97231cf22f00)
+accuracy=0.8434 | balanced_accuracy=0.7521 | precision=0.7140 | recall=0.5771 | f1=0.6383 | roc_auc=0.8993 | pr_auc=0.7359
+Corrida: 10_baseline_repeticion (4fb67309c65a473d97e5c50d3dd06477)
+accuracy=0.8495 | balanced_accuracy=0.7668 | precision=0.7195 | recall=0.6083 | f1=0.6592 | roc_auc=0.9024 | pr_auc=0.7474

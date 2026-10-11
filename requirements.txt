@@ -1,0 +1,9 @@
+# Python 3.12
+mlflow==3.16.1
+scikit-learn==1.9.1
+pandas==3.0.6
+numpy==2.3.5
+matplotlib==3.11.2
+# Solo para el notebook de exploración
+seaborn==0.13.2
+jupyter==1.1.1

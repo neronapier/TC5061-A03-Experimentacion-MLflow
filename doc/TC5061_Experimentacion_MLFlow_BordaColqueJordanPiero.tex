@@ -3,99 +3,142 @@
 \usepackage[spanish,es-tabla,es-nodecimaldot]{babel}
 \usepackage{fontspec}
 \setmainfont{Times New Roman}             % Times New Roman 11 pt
-\usepackage[margin=2.5cm]{geometry}
+\usepackage[margin=2.5cm,headheight=14pt]{geometry}
 \usepackage{setspace}
 \usepackage{graphicx}
 \usepackage{float}
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{listings}
 \usepackage{booktabs}
+\usepackage{array}
 \usepackage{caption}
 \usepackage{enumitem}
 \usepackage{fancyhdr}
+\usepackage{lastpage}
 \usepackage{pdflscape}
-\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,calc}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
 
+% ------------------------------ Colores --------------------------------------
+\definecolor{tec}{HTML}{0039A6}        % azul institucional
+\definecolor{tecclaro}{HTML}{E8EEF9}
+\definecolor{gris}{HTML}{5F6368}
+\definecolor{grisclaro}{HTML}{F4F5F7}
+\definecolor{acento}{HTML}{0B7A5A}
+
+\hypersetup{colorlinks=true, linkcolor=tec, urlcolor=tec, citecolor=tec,
+  pdftitle={TC5061 - Código de experimentación base con MLflow},
+  pdfauthor={Jordan Piero Borda Colque}}
+
+% ------------------------------ Formato --------------------------------------
 \onehalfspacing
 \setlength{\parskip}{4pt}
-\captionsetup{font=small,labelfont=bf}
-\setlist{itemsep=1pt,topsep=2pt}
+\setlength{\parindent}{0pt}
+\captionsetup{font=small,labelfont={bf,color=tec},labelsep=period}
+\setlist{itemsep=1pt,topsep=2pt,leftmargin=1.4em}
+\setlist[itemize]{label={\tikz[baseline=-0.6ex]\fill[tec] (0,-0.07) rectangle (0.14,0.07);}}
+
+\titleformat{\section}[block]{\Large\bfseries\color{tec}}{\thesection.}{0.6em}{}[\vspace{1pt}{\color{tec}\titlerule[0.8pt]}]
+\titlespacing*{\section}{0pt}{12pt}{8pt}
+\newcommand{\bloque}[1]{{\color{tec}\bfseries #1}\quad}
 
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small TC5061. Operaciones de Aprendizaje Automático (MLOps)}
-\fancyhead[R]{\small A01840539}
-\fancyfoot[C]{\small\thepage}
+\fancyhead[L]{\small\color{gris} TC5061 · Operaciones de Aprendizaje Automático (MLOps)}
+\fancyhead[R]{\small\color{gris} Actividad 3 · A01840539}
+\fancyfoot[C]{\small\color{gris} Página \thepage\ de \pageref{LastPage}}
 \renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{{\color{tec!40}\hrule height\headrulewidth}}
 
 % Enlaces del entregable
 \newcommand{\repo}{https://github.com/neronapier/TC5061-A03-Experimentacion-MLflow}
 \newcommand{\mlflowui}{https://161.132.54.170}
 
-\definecolor{codebg}{HTML}{F7F7F9}
+% Código
 \lstdefinestyle{bash}{
   language=bash,
-  backgroundcolor=\color{codebg},
-  basicstyle=\ttfamily\footnotesize\setstretch{1.0},
-  frame=single,
-  rulecolor=\color{gray!40},
-  breaklines=true,
-  columns=fullflexible,
-  keepspaces=true,
-  upquote=true,
+  backgroundcolor=\color{grisclaro},
+  basicstyle=\ttfamily\footnotesize\setstretch{1.05},
+  commentstyle=\color{acento}\itshape,
+  keywordstyle=\color{black},
+  frame=leftline, framerule=2.5pt, rulecolor=\color{tec},
+  xleftmargin=6pt, framexleftmargin=6pt, aboveskip=6pt, belowskip=4pt,
+  breaklines=true, columns=fullflexible, keepspaces=true, upquote=true,
   showstringspaces=false,
 }
 
+% Recuadros
+\newtcolorbox{ficha}{enhanced, colback=tecclaro, colframe=tec, boxrule=0.6pt, arc=2pt,
+  left=8pt, right=8pt, top=5pt, bottom=5pt, before skip=4pt, after skip=8pt}
+\newtcolorbox{destacado}{enhanced, colback=white, colframe=acento, boxrule=0.6pt, arc=2pt,
+  borderline west={3pt}{0pt}{acento}, left=8pt, right=8pt, top=4pt, bottom=4pt,
+  before skip=6pt, after skip=6pt}
+\newcommand{\captura}[2][\linewidth]{%
+  \tcbox[enhanced, colback=white, colframe=gray!45, boxrule=0.5pt, arc=1pt,
+         left=0pt, right=0pt, top=0pt, bottom=0pt]{\includegraphics[width=#1]{#2}}}
+
 \begin{document}
-\sloppy
+\setlength{\emergencystretch}{2.5em}
 
 % ============================== PORTADA ======================================
 \begin{titlepage}
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[tec] (current page.north west) rectangle ([yshift=-1.1cm]current page.north east);
+  \fill[tec] (current page.south west) rectangle ([yshift=0.7cm]current page.south east);
+  \fill[tec!25] ([yshift=0.7cm]current page.south west) rectangle ([yshift=0.85cm]current page.south east);
+\end{tikzpicture}
 \centering
-\vspace*{1.2cm}
+\vspace*{1.0cm}
 
-\includegraphics[width=0.52\textwidth]{logo_tec.png}\\[1.1cm]
+\includegraphics[width=0.48\textwidth]{logo_tec.png}\\[0.9cm]
 
-{\large Maestría en Inteligencia Artificial Aplicada}\\[1.8cm]
+{\large\color{gris} Maestría en Inteligencia Artificial Aplicada}\\[2.2cm]
 
-\rule{\linewidth}{0.5pt}\\[0.5cm]
-{\LARGE\bfseries Actividad 3\\[0.35cm]
-Código de experimentación base con MLflow}\\[0.4cm]
-\rule{\linewidth}{0.5pt}\\[2cm]
+{\color{tec}\rule{0.85\linewidth}{1.2pt}}\\[0.55cm]
+{\normalsize\color{tec}\bfseries\MakeUppercase{Actividad 3}}\\[0.25cm]
+{\fontsize{24}{30}\selectfont\bfseries Código de experimentación base\\[0.15cm] con MLflow}\\[0.35cm]
+{\large\color{gris}\itshape Script parametrizado, seguimiento de experimentos y comparación de corridas}\\[0.5cm]
+{\color{tec}\rule{0.85\linewidth}{1.2pt}}\\[2.0cm]
 
 {\large
-\begin{tabular}{rl}
-\textbf{Alumno:} & Jordan Piero Borda Colque\\[0.25cm]
-\textbf{Matrícula:} & A01840539\\[0.25cm]
-\textbf{Correo:} & \href{mailto:A01840539@tec.mx}{A01840539@tec.mx}\\[0.25cm]
-\textbf{Curso:} & TC5061: Operaciones de Aprendizaje\\
-                & Automático (MLOps)\\[0.25cm]
-\textbf{Profesor titular:} & Iván Reyes Amezcua\\[0.25cm]
-\textbf{Fecha:} & 11 de octubre de 2026\\
+\renewcommand{\arraystretch}{1.45}
+\begin{tabular}{@{}r@{\hspace{0.8em}}l@{}}
+{\color{tec}\bfseries Alumno} & Jordan Piero Borda Colque\\
+{\color{tec}\bfseries Matrícula} & A01840539\\
+{\color{tec}\bfseries Correo} & \href{mailto:A01840539@tec.mx}{A01840539@tec.mx}\\
+{\color{tec}\bfseries Curso} & TC5061 · Operaciones de Aprendizaje Automático (MLOps)\\
+{\color{tec}\bfseries Profesor titular} & Iván Reyes Amezcua\\
+{\color{tec}\bfseries Fecha} & 11 de octubre de 2026\\
 \end{tabular}}
 
 \vfill
 \end{titlepage}
 
 % ============================== 1 ============================================
-\section{Repositorio y ejecución}
+\section{Entregable y ejecución}
 
-\begin{itemize}
-  \item \textbf{Repositorio:} \url{\repo}
-  \item \textbf{MLflow (solo lectura):} \url{\mlflowui}
-  \item \textbf{Experimento:} \texttt{TC5061\_A03\_AdultIncome\_LogReg} (10 corridas)
-\end{itemize}
+\begin{ficha}
+\small\setstretch{1.25}
+\newcommand{\etq}[1]{\textcolor{tec}{\bfseries #1}}
+\begin{tabular}{@{}l@{\hspace{1em}}l@{}}
+\etq{Repositorio} & \url{\repo}\\
+\etq{MLflow}      & \url{\mlflowui} \quad{\color{gris}(solo lectura; VPS con Docker: MLflow 3.16.1 + MinIO)}\\
+\etq{Experimento} & \texttt{TC5061\_A03\_AdultIncome\_LogReg} \quad{\color{gris}(10 corridas)}\\
+\etq{Modelo}      & Regresión logística sobre UCI Adult: predecir si una persona gana más de 50K USD al año\\
+\end{tabular}
+\end{ficha}
 
-El modelo base de la Actividad 2 (regresión logística sobre UCI Adult, para predecir si una persona gana más de 50K USD
-al año) pasó del notebook a \texttt{train.py}. El notebook \texttt{notebooks/eda\_adult.ipynb} conserva solo la
-exploración de datos. Las corridas se ejecutaron en el VPS del curso, en Docker: MLflow 3.16.1 con artefactos
-en MinIO. Comandos exactos:
+El modelo base de la Actividad 2 pasó del notebook al script \texttt{train.py}, y el notebook
+\texttt{notebooks/\allowbreak eda\_adult.ipynb} conserva solo la exploración de datos. Comandos exactos de ejecución:
 
 \begin{lstlisting}[style=bash]
 pip install -r requirements.txt
-python train.py                                   # valores por defecto
+python train.py                                  # valores por defecto
 python train.py --C 1 --l1-ratio 0 --class-weight balanced --seed 42 --run-name 07_l2_C1_balanced
-./scripts/run_experimentos.sh                     # las 10 corridas
+./scripts/run_experimentos.sh                    # las 10 corridas
 # En el VPS (MLFLOW_TRACKING_URI=http://mlflow:5000 dentro del contenedor):
 docker compose --profile run run --rm -T -w /work/actividad3 -e PY=python runner \
     bash scripts/run_experimentos.sh
@@ -104,49 +147,73 @@ docker compose --profile run run --rm -T -w /work/actividad3 -e PY=python runner
 % ============================== 2 ============================================
 \section{Implementación}
 
-\textbf{Estructura.} Cada función de \texttt{train.py} tiene una sola responsabilidad: \texttt{parse\_args},
-\texttt{fijar\_semilla}, \texttt{cargar\_datos} (descarga UCI si falta), \texttt{limpiar} (decisiones de la
-Actividad 2), \texttt{construir\_modelo} (\texttt{Pipeline} con preprocesamiento y clasificador),
-\texttt{evaluar}, \texttt{guardar\_artefactos} y \texttt{main}, que une todo dentro de \texttt{mlflow.start\_run()}.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  node distance=0.2cm,
+  paso/.style={draw=tec, fill=tecclaro, rounded corners=2pt, font=\ttfamily\footnotesize,
+               minimum height=0.7cm, inner xsep=2.5pt, align=center},
+  flecha/.style={-{Stealth[length=4pt]}, tec, thick}]
+  \node[paso, fill=white] (cli) {argparse\\[-2pt]\textrm{\tiny CLI}};
+  \node[paso, right=of cli] (sem) {fijar\_\\[-2pt]semilla};
+  \node[paso, right=of sem] (car) {cargar\_\\[-2pt]datos};
+  \node[paso, right=of car] (lim) {limpiar};
+  \node[paso, right=of lim] (mod) {construir\_\\[-2pt]modelo};
+  \node[paso, right=of mod] (eva) {evaluar};
+  \node[paso, right=of eva] (art) {guardar\_\\[-2pt]artefactos};
+  \node[paso, right=0.45cm of art, draw=acento, fill=acento!8, font=\scriptsize, text width=2.3cm]
+       (mlf) {\textbf{MLflow Tracking}\\[-1pt]{\scriptsize params · métricas\\[-3pt] artefactos · modelo}};
+  \foreach \a/\b in {cli/sem, sem/car, car/lim, lim/mod, mod/eva, eva/art, art/mlf}
+    \draw[flecha] (\a) -- (\b);
+  \draw[tec!60, dashed, rounded corners=3pt]
+    ($(sem.north west)+(-0.1,0.22)$) rectangle ($(art.south east)+(0.1,-0.12)$);
+  \node[font=\scriptsize\color{tec}, anchor=south] at ($(lim.north)!0.5!(mod.north)+(0,0.22)$)
+       {main() \textrm{dentro de} mlflow.start\_run()};
+\end{tikzpicture}
+\caption{Flujo de \texttt{train.py}: cada función tiene una sola responsabilidad.}
+\end{figure}
 
-\textbf{Parámetros por línea de comandos} (\texttt{argparse}, con valores por defecto y ayuda en
-\texttt{--help}): \texttt{--C} (1.0), \texttt{--l1-ratio} (0 = L2, 1 = L1), \texttt{--class-weight}
-(\texttt{none}/\texttt{balanced}), \texttt{--min-frequency} (50), \texttt{--max-iter} (1000) y \texttt{--seed} (42),
-además de \texttt{--test-size}, \texttt{--cv-folds}, \texttt{--experiment-name} y \texttt{--run-name}.
+\bloque{Parámetros}\texttt{argparse} con valores por defecto y ayuda en \texttt{--help}: \texttt{--C} (1.0),
+\texttt{--l1-ratio} (0 = L2, 1 = L1), \texttt{--class-weight} (\texttt{none}/\texttt{balanced}),
+\texttt{--min-frequency} (50), \texttt{--max-iter} (1000) y \texttt{--seed} (42), además de \texttt{--test-size},
+\texttt{--cv-folds}, \texttt{--experiment-name} y \texttt{--run-name}.
 
-\textbf{Registro en MLflow.} \texttt{log\_param} para cada argumento, el solver y los tamaños de entrenamiento y prueba;
-\texttt{log\_metric} para 7 métricas de prueba (accuracy, balanced accuracy, precision, recall, F1, ROC-AUC y PR-AUC),
-la ROC-AUC de validación cruzada (media y desviación), la ROC-AUC de entrenamiento y el número de coeficientes
-distintos de cero; \texttt{log\_artifact} para la matriz de confusión con la curva ROC, el reporte de
-clasificación y \texttt{metrics.json}; y \texttt{mlflow.sklearn.log\_model} para el pipeline, con firma y ejemplo
-de entrada.
+\bloque{Registro}\texttt{log\_param}: cada argumento, el solver y los tamaños de entrenamiento y prueba.
+\texttt{log\_metric}: 7 métricas de prueba (accuracy, balanced accuracy, precision, recall, F1, ROC-AUC y PR-AUC),
+la ROC-AUC de validación cruzada, la de entrenamiento y los coeficientes distintos de cero.
+\texttt{log\_artifact}: matriz de confusión con curva ROC, reporte de clasificación y \texttt{metrics.json}.
+\texttt{mlflow.sklearn.log\_model}: el pipeline completo, con firma y ejemplo de entrada.
 
-\textbf{Reproducibilidad.} La semilla fija \texttt{random}, \texttt{numpy} y \texttt{PYTHONHASHSEED}, y se pasa
-como \texttt{random\_state} a la división, a la validación cruzada y al modelo. Las versiones están fijadas en
-\texttt{requirements.txt}. La corrida 10 repite la 01 con los mismos argumentos y da las mismas métricas hasta el
-último decimal. Ese mismo resultado también se obtuvo en un entorno local nuevo instalado desde
-\texttt{requirements.txt}.
+\bloque{Reproducibilidad}La semilla fija \texttt{random}, \texttt{numpy} y \texttt{PYTHONHASHSEED}, y se pasa como
+\texttt{random\_state} a la división, a la validación cruzada y al modelo. Las versiones están fijadas en
+\texttt{requirements.txt}. La corrida 10 repite la 01 y da las mismas métricas hasta el último decimal; un entorno
+local nuevo instalado desde \texttt{requirements.txt} también dio el mismo resultado.
 
 % ============================== 3 ============================================
+\newpage
 \section{Corridas}
 
 \begin{table}[H]
 \centering
 \small
-\setstretch{1.1}
-\caption{Corridas del experimento (métricas en el conjunto de prueba, $n = 9\,758$).}
+\setstretch{1.12}
+\caption{Corridas del experimento (métricas en el conjunto de prueba, $n = 9\,758$). En azul, la configuración
+elegida; en negrita, el mejor valor de cada columna.}
 \label{tab:corridas}
+\rowcolors{2}{grisclaro}{white}
 \begin{tabular}{@{}lrrlrrrrrrr@{}}
 \toprule
+\rowcolor{white}
 \textbf{Corrida} & \textbf{C} & \textbf{l1} & \textbf{class\_w} & \textbf{mf} & \textbf{seed} &
 \textbf{ROC-AUC} & \textbf{F1} & \textbf{Prec.} & \textbf{Recall} & \textbf{Coef.} \\
 \midrule
 01 baseline        & 1     & 0   & none     & 50  & 42 & 0.9024 & 0.6592 & 0.7195 & 0.6083 & 74 \\
 02 L2 fuerte       & 0.001 & 0   & none     & 50  & 42 & 0.8954 & 0.5984 & 0.7449 & 0.5000 & 74 \\
-03 L2 débil        & 100   & 0   & none     & 50  & 42 & 0.9025 & 0.6582 & 0.7175 & 0.6079 & 74 \\
+03 L2 débil        & 100   & 0   & none     & 50  & 42 & \textbf{0.9025} & 0.6582 & 0.7175 & 0.6079 & 74 \\
 04 L1              & 0.01  & 1   & none     & 50  & 42 & 0.8981 & 0.6382 & 0.7205 & 0.5728 & 19 \\
-05 L1 fuerte       & 0.001 & 1   & none     & 50  & 42 & 0.8909 & 0.5470 & 0.7727 & 0.4234 & 6 \\
+05 L1 fuerte       & 0.001 & 1   & none     & 50  & 42 & 0.8909 & 0.5470 & \textbf{0.7727} & 0.4234 & \textbf{6} \\
 06 Elastic Net     & 0.1   & 0.5 & none     & 50  & 42 & 0.9024 & 0.6544 & 0.7188 & 0.6006 & 50 \\
+\rowcolor{tecclaro}
 \textbf{07 balanced} & 1   & 0   & balanced & 50  & 42 & 0.9023 & \textbf{0.6715} & 0.5572 & \textbf{0.8450} & 74 \\
 08 min\_freq 500   & 1     & 0   & none     & 500 & 42 & 0.9023 & 0.6583 & 0.7202 & 0.6062 & 50 \\
 09 otra semilla    & 1     & 0   & none     & 50  & 7  & 0.8993 & 0.6383 & 0.7140 & 0.5771 & 72 \\
@@ -158,43 +225,48 @@ como \texttt{random\_state} a la división, a la validación cruzada y al modelo
 % ============================== 4 ============================================
 \section{Análisis de resultados}
 
-\textbf{Mejor configuración.} En ROC-AUC, que no depende del umbral, hay un empate: las corridas 01, 03, 06, 07 y 08
-quedan entre 0.9023 y 0.9025. Esa diferencia es menor que la desviación estándar de la validación cruzada (0.004).
-Por eso elijo la \textbf{07 (L2, $C=1$, \texttt{class\_weight=balanced})}: con la misma ROC-AUC obtiene el mejor F1
-(0.672) y la mejor balanced accuracy (0.817), y sube el recall de la clase \texttt{>50K} de 0.61 a 0.85. Su costo es
-menos precisión (0.56) y menos accuracy (0.80), porque predice \texttt{>50K} con más frecuencia.
+\bloque{Mejor configuración}En ROC-AUC, que no depende del umbral, hay un empate: las corridas 01, 03, 06, 07 y 08
+quedan entre 0.9023 y 0.9025, una diferencia menor que la desviación estándar de la validación cruzada (0.004).
+Por eso el criterio de desempate son las métricas de la clase \texttt{>50K}.
 
-\textbf{Hiperparámetro más influyente.} \texttt{class\_weight} es el que más cambia las métricas que dependen del
+\begin{destacado}
+\small\setstretch{1.2}
+{\color{acento}\bfseries Configuración elegida: corrida 07} (L2, $C=1$, \texttt{class\_weight=balanced}).
+Con la misma ROC-AUC (0.902) obtiene el mejor F1 (0.672) y la mejor balanced accuracy (0.817), y sube el recall de
+\texttt{>50K} de 0.61 a 0.85. Su costo: menos precisión (0.56) y accuracy (0.80).
+\end{destacado}
+
+\bloque{Hiperparámetro más influyente}\texttt{class\_weight} es el que más cambia las métricas que dependen del
 umbral: mueve el recall 24 puntos sin cambiar la ROC-AUC, así que en la práctica desplaza el umbral de decisión.
 \texttt{C} solo influye con regularización fuerte: con $C=0.001$ la ROC-AUC baja a 0.895 (L2) y 0.891 (L1), y el
-recall cae a 0.50 y 0.42; entre $C=1$ y $C=100$ no hay diferencia. L1 sirve para simplificar el modelo: con
-$C=0.01$ usa 19 de 74 coeficientes y conserva una ROC-AUC de 0.898. \texttt{min\_frequency} (de 50 a 500) quita 24
-columnas y no cambia el desempeño.
+recall cae a 0.50 y 0.42; entre $C=1$ y $C=100$ no hay diferencia. L1 simplifica el modelo: con $C=0.01$ usa 19 de
+74 coeficientes y conserva una ROC-AUC de 0.898. \texttt{min\_frequency} (de 50 a 500) quita 24 columnas y no cambia
+el desempeño.
 
-\textbf{Limitaciones.}
+\bloque{Limitaciones}
 \begin{itemize}
-  \item Se usa una sola partición de prueba. Cambiar solo la semilla (corrida 09) mueve el F1 en 0.021 y la ROC-AUC
-        en 0.003, más que la diferencia entre las mejores configuraciones.
-  \item Las corridas se eligieron a mano (10 configuraciones). Faltan una búsqueda sistemática y el ajuste del
-        umbral, que daría un efecto parecido a \texttt{balanced}.
-  \item Las corridas L1 y Elastic Net usan \texttt{saga} y las L2 usan \texttt{lbfgs}, así que el solver también
-        cambia entre ellas.
-  \item Se probó un solo modelo lineal y no se evaluó el sesgo por \texttt{sex} y \texttt{race}, que el EDA mostró
-        relevante.
+  \item Una sola partición de prueba: cambiar solo la semilla (corrida 09) mueve el F1 en 0.021 y la ROC-AUC en
+        0.003, más que la diferencia entre las mejores configuraciones.
+  \item Corridas elegidas a mano (10). Faltan una búsqueda sistemática y el ajuste del umbral, que daría un efecto
+        parecido a \texttt{balanced}.
+  \item L1 y Elastic Net usan \texttt{saga} y L2 usa \texttt{lbfgs}, así que el solver también cambia entre ellas.
+  \item Un solo modelo lineal; no se evaluó el sesgo por \texttt{sex} y \texttt{race}, que el EDA mostró relevante.
 \end{itemize}
 
 % ============================== ANEXO ========================================
 \appendix
+\renewcommand{\thefigure}{A.\arabic{figure}}
+\setcounter{figure}{0}
 
 \begin{landscape}
 \section{Evidencias de MLflow}
 
-Las figuras se tomaron de la interfaz pública \url{\mlflowui}, donde se pueden revisar todas las corridas.
+Capturas de la interfaz pública \url{\mlflowui}, donde se pueden revisar todas las corridas.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{../evidencia/01_tabla_corridas.png}
-\caption{Tabla comparativa de las 10 corridas en el experimento \texttt{TC5061\_A03\_AdultIncome\_LogReg}
+\captura[0.985\linewidth]{../evidencia/01_tabla_corridas.png}
+\caption{Tabla comparativa de las 10 corridas del experimento \texttt{TC5061\_A03\_AdultIncome\_LogReg}
 (parámetros y métricas de prueba).}
 \end{figure}
 \end{landscape}
@@ -202,7 +274,7 @@ Las figuras se tomaron de la interfaz pública \url{\mlflowui}, donde se pueden 
 \begin{landscape}
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.92\linewidth]{../evidencia/02_comparacion_corridas.png}
+\captura[0.9\linewidth]{../evidencia/02_comparacion_corridas.png}
 \caption{Vista \textit{Compare runs}: coordenadas paralelas de \texttt{C}, \texttt{class\_weight} y
 \texttt{l1\_ratio} contra \texttt{test\_f1}.}
 \end{figure}
@@ -210,13 +282,13 @@ Las figuras se tomaron de la interfaz pública \url{\mlflowui}, donde se pueden 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{../evidencia/03_corrida_detalle.png}
+\captura[0.9\textwidth]{../evidencia/03_corrida_detalle.png}
 \caption{Detalle de la corrida \texttt{07\_l2\_C1\_balanced}: métricas, tags y modelo asociado.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{../evidencia/04_corrida_artefactos.png}
+\captura[0.9\textwidth]{../evidencia/04_corrida_artefactos.png}
 \caption{Artefactos de la corrida \texttt{07\_l2\_C1\_balanced}: reporte, \texttt{metrics.json} y la imagen
 con la matriz de confusión y la curva ROC.}
 \end{figure}
@@ -224,7 +296,7 @@ con la matriz de confusión y la curva ROC.}
 % ============================== REFERENCIAS ==================================
 \newpage
 \section*{Referencias}
-\sloppy
+\setlength{\parskip}{6pt}
 
 \noindent\hangindent=1.27cm
 Becker, B., \& Kohavi, R. (1996). \textit{Adult} [Dataset]. UCI Machine Learning Repository.
